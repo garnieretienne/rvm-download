@@ -26,6 +26,7 @@ download_and_extract_package() {
   ruby_version="$1"
   url="${RVM_BINARIES_BASE}/${OS_NAME}/${OS_VERSION}/${OS_ARCH}/ruby-${ruby_version}.tar.bz2"
   curl -C - -o "${2:--}" -qsSLf $url | tar xj --directory $RUBIES_ROOT
+  rm -rf "${RUBIES_ROOT}/${ruby_version}"
   mv "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version}"
 }
 
