@@ -16,7 +16,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-RVM_BINARIES_BASE="https://rvm.io/binaries"
+RVM_BINARIES_BASE="http://rvm.io/binaries"
 OS_NAME="ubuntu"
 OS_VERSION="12.04"
 OS_ARCH="x86_64"
