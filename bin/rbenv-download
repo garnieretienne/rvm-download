@@ -3,8 +3,6 @@
 # Summary: Download ruby binaries directly from RVM repo
 #
 # Usage: rbenv download <ruby-version>
-#
-# Only support Ubuntu 12.04 x64 for now.
 
 set -e
 [ -n "$RBENV_DEBUG" ] && set -x
@@ -17,18 +15,26 @@ if [ -z "$1" ]; then
 fi
 
 RVM_BINARIES_BASE="http://rvm.io/binaries"
-OS_NAME="ubuntu"
-OS_VERSION="12.04"
-OS_ARCH="x86_64"
 RUBIES_ROOT="${RBENV_ROOT}/versions"
 
-download_and_extract_package() {
-  ruby_version="$1"
-  url="${RVM_BINARIES_BASE}/${OS_NAME}/${OS_VERSION}/${OS_ARCH}/ruby-${ruby_version}.tar.bz2"
-  curl -C - -o "${2:--}" -qsSLf $url | tar xj --directory $RUBIES_ROOT
-  rm -rf "${RUBIES_ROOT}/${ruby_version}"
-  mv "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version}"
-}
+source "$(dirname $BASH_SOURCE)/../lib/rvm_import.sh"
+source "$(dirname $BASH_SOURCE)/../lib/functions.sh"
 
-echo "Download and extract ruby ${1} from RVM repository"
-download_and_extract_package $1
+detect_system
+
+ruby_version=$1
+package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME,,}/${SYSTEM_VERSION,,}/${SYSTEM_ARCH,,}/ruby-${ruby_version}.tar.bz2"
+
+echo "Download and extract ruby ${ruby_version} from RVM repository"
+
+if ! check_url $package_url; then
+  echo "${url} cannot be reached" >&2
+  echo "Cannot found a built version of ruby '${ruby_version}' compiled for your current system: ${SYSTEM_NAME} ${SYSTEM_ARCH} (${SYSTEM_VERSION})" >&2
+  exit 1
+fi
+
+erase_folder_if_exist "${RUBIES_ROOT}/${ruby_version}"
+download_and_extract_package $package_url $RUBIES_ROOT
+rename_folder_if_exist "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version}"
+
+echo "Ruby ${ruby_version} has been installed"
