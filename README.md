@@ -1,6 +1,6 @@
 # rvm-download
 
-rvm-download is an [rbenv](https://github.com/sstephenson/rbenv) plugin that provides an `rbenv download` to download and extract ruby binaries from the [RVM binaries repository](https://rvm.io/binaries/).
+rvm-download is an [rbenv](https://github.com/sstephenson/rbenv) plugin that provides an `rbenv download` command to download and extract ruby binaries from the [RVM binaries repository](https://rvm.io/binaries/).
 
 ## Installation
 
