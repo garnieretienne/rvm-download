@@ -23,7 +23,8 @@ source "$(dirname $BASH_SOURCE)/../lib/functions.sh"
 detect_system
 
 ruby_version=$1
-package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME,,}/${SYSTEM_VERSION,,}/${SYSTEM_ARCH,,}/ruby-${ruby_version}.tar.bz2"
+package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME}/${SYSTEM_VERSION}/${SYSTEM_ARCH}/ruby-${ruby_version}.tar.bz2"
+package_url=`echo $package_url | awk '{print tolower($0)}'`
 
 echo "Download and extract ruby ${ruby_version} from RVM repository"
 
