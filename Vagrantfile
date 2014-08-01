@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     bootstrap_script = <<-SCRIPT
       export DEBIAN_FRONTEND=noninteractive
       sudo apt-get --assume-yes update
-      sudo apt-get --assume-yes install git curl
+      sudo apt-get --assume-yes install git curl libyaml-0-2
       git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
       echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.profile
       echo 'eval "$(rbenv init -)"' >> ~/.profile
