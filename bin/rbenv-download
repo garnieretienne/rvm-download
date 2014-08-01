@@ -19,6 +19,7 @@ RUBIES_ROOT="${RBENV_ROOT}/versions"
 
 source "$(dirname $BASH_SOURCE)/../lib/rvm_import.sh"
 source "$(dirname $BASH_SOURCE)/../lib/functions.sh"
+source "$(dirname $BASH_SOURCE)/../lib/rvm.sh"
 
 detect_system
 
@@ -37,5 +38,6 @@ fi
 erase_folder_if_exist "${RUBIES_ROOT}/${ruby_version}"
 download_and_extract_package $package_url $RUBIES_ROOT
 rename_folder_if_exist "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version}"
+remove_rvm_dependencies "${RUBIES_ROOT}/${ruby_version}"
 
 echo "Ruby ${ruby_version} has been installed"
