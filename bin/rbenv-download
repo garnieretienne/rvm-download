@@ -14,7 +14,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-RVM_BINARIES_BASE="http://rvm.io/binaries"
+RVM_BINARIES_BASE=${RVM_BINARIES_BASE:-"http://rvm.io/binaries"}
 RUBIES_ROOT="${RBENV_ROOT}/versions"
 
 source "$(dirname $BASH_SOURCE)/../lib/rvm_import.sh"
