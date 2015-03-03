@@ -27,11 +27,11 @@ ruby_version=$1
 package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME}/${SYSTEM_VERSION}/${SYSTEM_ARCH}/ruby-${ruby_version}.tar.bz2"
 package_url=`echo $package_url | awk '{print tolower($0)}'`
 
-echo "Download and extract ruby ${ruby_version} from RVM repository"
+echo "Download and extract ruby ${ruby_version} from the RVM repository"
 
 if ! check_url $package_url; then
   echo "${url} cannot be reached" >&2
-  echo "Cannot found a built version of ruby '${ruby_version}' compiled for your current system: ${SYSTEM_NAME} ${SYSTEM_ARCH} (${SYSTEM_VERSION})" >&2
+  echo "Cannot find a built version of ruby '${ruby_version}' compiled for your current system: ${SYSTEM_NAME} ${SYSTEM_ARCH} (${SYSTEM_VERSION})" >&2
   exit 1
 fi
 
