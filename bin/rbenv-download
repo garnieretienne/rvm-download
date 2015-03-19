@@ -15,19 +15,29 @@ if [ -z "$1" ]; then
 fi
 
 RVM_BINARIES_BASE=${RVM_BINARIES_BASE:-"http://rvm.io/binaries"}
+RVM_BINARIES_PACKAGE_PREFIX=${RVM_BINARIES_PACKAGE_PREFIX:-"ruby"}
 RUBIES_ROOT="${RBENV_ROOT}/versions"
 
 source "$(dirname $BASH_SOURCE)/../lib/rvm_import.sh"
 source "$(dirname $BASH_SOURCE)/../lib/functions.sh"
+source "$(dirname $BASH_SOURCE)/../lib/rbx-functions.sh"
 source "$(dirname $BASH_SOURCE)/../lib/rvm.sh"
 
 detect_system
 
 ruby_version=$1
-package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME}/${SYSTEM_VERSION}/${SYSTEM_ARCH}/ruby-${ruby_version}.tar.bz2"
+ruby_version_full=$ruby_version
+case $ruby_version in
+  rbx-* ) # Rubinius
+    RVM_BINARIES_BASE="http://binaries.rubini.us"
+    RVM_BINARIES_PACKAGE_PREFIX="rubinius"
+    ruby_version=`echo $ruby_version | sed -e 's/^rbx-//'`
+    ;;
+esac
+package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME}/${SYSTEM_VERSION}/${SYSTEM_ARCH}/${RVM_BINARIES_PACKAGE_PREFIX}-${ruby_version}.tar.bz2"
 package_url=`echo $package_url | awk '{print tolower($0)}'`
 
-echo "Download and extract ruby ${ruby_version} from the RVM repository"
+echo "Download and extract ${RVM_BINARIES_PACKAGE_PREFIX} ${ruby_version} from the RVM repository"
 
 if ! check_url $package_url; then
   echo "${url} cannot be reached" >&2
@@ -35,9 +45,17 @@ if ! check_url $package_url; then
   exit 1
 fi
 
-erase_folder_if_exist "${RUBIES_ROOT}/${ruby_version}"
+erase_folder_if_exist "${RUBIES_ROOT}/${ruby_version_full}"
 download_and_extract_package $package_url $RUBIES_ROOT
-rename_folder_if_exist "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version}"
+case $RVM_BINARIES_PACKAGE_PREFIX in
+  "ruby")
+    rename_folder_if_exist "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version_full}"
+    ;;
+  "rubinius")
+    rename_folder_if_exist "${RUBIES_ROOT}/rubinius/${ruby_version}" "${RUBIES_ROOT}/${ruby_version_full}"
+    erase_folder_if_exist "${RUBIES_ROOT}/rubinius"
+    ;;
+esac
 remove_rvm_dependencies "${RUBIES_ROOT}/${ruby_version}"
 
 echo "Ruby ${ruby_version} has been installed"
