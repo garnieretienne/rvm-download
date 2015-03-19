@@ -41,17 +41,17 @@ echo "Download and extract ${RVM_BINARIES_PACKAGE_PREFIX} ${ruby_version} from t
 
 if ! check_url $package_url; then
   echo "${url} cannot be reached" >&2
-  echo "Cannot find a built version of ruby '${ruby_version}' compiled for your current system: ${SYSTEM_NAME} ${SYSTEM_ARCH} (${SYSTEM_VERSION})" >&2
+  echo "Cannot find a built version of ${RUBY_BINARIES_PACKAGE_PREFIX} '${ruby_version}' compiled for your current system: ${SYSTEM_NAME} ${SYSTEM_ARCH} (${SYSTEM_VERSION})" >&2
   exit 1
 fi
 
 erase_folder_if_exist "${RUBIES_ROOT}/${ruby_version_full}"
 download_and_extract_package $package_url $RUBIES_ROOT
 case $RVM_BINARIES_PACKAGE_PREFIX in
-  "ruby")
+  "ruby" )
     rename_folder_if_exist "${RUBIES_ROOT}/ruby-${ruby_version}" "${RUBIES_ROOT}/${ruby_version_full}"
     ;;
-  "rubinius")
+  "rubinius" )
     rename_folder_if_exist "${RUBIES_ROOT}/rubinius/${ruby_version}" "${RUBIES_ROOT}/${ruby_version_full}"
     erase_folder_if_exist "${RUBIES_ROOT}/rubinius"
     fix_rbx_gem_binstubs "${RUBIES_ROOT}/${ruby_version_full}"
@@ -60,4 +60,11 @@ case $RVM_BINARIES_PACKAGE_PREFIX in
 esac
 remove_rvm_dependencies "${RUBIES_ROOT}/${ruby_version_full}"
 
-echo "Ruby ${ruby_version} has been installed"
+case $RVM_BINARIES_PACKAGE_PREFIX in
+  "rubinius" )
+    echo "Rubinius ${ruby_version} has been installed"
+    ;;
+  * )
+    echo "Ruby ${ruby_version} has been installed"
+    ;;
+esac
