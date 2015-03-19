@@ -54,8 +54,10 @@ case $RVM_BINARIES_PACKAGE_PREFIX in
   "rubinius")
     rename_folder_if_exist "${RUBIES_ROOT}/rubinius/${ruby_version}" "${RUBIES_ROOT}/${ruby_version_full}"
     erase_folder_if_exist "${RUBIES_ROOT}/rubinius"
+    fix_rbx_gem_binstubs "${RUBIES_ROOT}/${ruby_version_full}"
+    fix_rbx_irb "${RUBIES_ROOT}/${ruby_version_full}"
     ;;
 esac
-remove_rvm_dependencies "${RUBIES_ROOT}/${ruby_version}"
+remove_rvm_dependencies "${RUBIES_ROOT}/${ruby_version_full}"
 
 echo "Ruby ${ruby_version} has been installed"
