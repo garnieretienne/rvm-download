@@ -202,8 +202,8 @@ __rvm_detect_system()
 # Export the result of `__rvm_detect_system` function into constants
 detect_system() {
   __rvm_detect_system
-  SYSTEM_NAME=${_system_name}
-  SYSTEM_TYPE=${_system_type}
-  SYSTEM_VERSION=${_system_version}
-  SYSTEM_ARCH=${_system_arch}
+  SYSTEM_NAME=${SYSTEM_NAME:-"$_system_name"}
+  SYSTEM_TYPE=${SYSTEM_TYPE:-"$_system_type"}
+  SYSTEM_VERSION=${SYSTEM_VERSION:-"$_system_version"}
+  SYSTEM_ARCH=${SYSTEM_ARCH:-"$_system_arch"}
 }
