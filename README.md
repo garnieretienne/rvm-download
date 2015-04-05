@@ -38,6 +38,14 @@ https://internal.example.com/rubies/ubuntu/12.04/x86_64/ruby-1.8.2.tar.bz2 canno
 Cannot found a built version of ruby '1.8.2' compiled for your current system: Ubuntu x86_64 (12.04)
 ```
 
+Example: installing Rubinus 2.5.2:
+
+```console
+$ rbenv download rbx-2.5.2
+Download and extract rubinius 2.5.2 from the RVM repository
+Rubinius 2.5.2 has been installed
+```
+
 ## Troubleshooting
 
 ###  It seems your ruby installation is missing psych (for YAML output)
@@ -48,5 +56,3 @@ To eliminate this warning, please install libyaml and reinstall your ruby.
 ```
 
 Install the `libyaml` package available on your distribution. (`libyaml-0-2` on Ubuntu)
-
-
