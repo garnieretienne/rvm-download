@@ -113,7 +113,7 @@ __rvm_detect_system()
         _system_name="$(
           GREP_OPTIONS="" \grep -Eo 'CentOS|ClearOS|Mageia|Scientific' /etc/redhat-release 2>/dev/null
         )" ||
-        _system_name="RedHat"
+        _system_name="CentOS"
         _system_version="$(GREP_OPTIONS="" \grep -Eo '[0-9\.]+' /etc/redhat-release | \awk -F. 'NR==1{print $1}')"
       else
         _system_version="libc-$(ldd --version | \awk 'NR==1 {print $NF}' | \awk -F. '{print $1"."$2}')"
