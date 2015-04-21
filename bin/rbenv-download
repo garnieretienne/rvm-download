@@ -33,6 +33,12 @@ case $ruby_version in
     RVM_BINARIES_PACKAGE_PREFIX="rubinius"
     ruby_version=`echo $ruby_version | sed -e 's/^rbx-//'`
     ;;
+  --list)
+    index_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME}/${SYSTEM_VERSION}/${SYSTEM_ARCH}/"
+    index_url=`echo $index_url | awk '{print tolower($0)}'`
+    curl -sL "$index_url" | perl -nle'print $1 if m{([A-Za-z0-9-_\.]+).tar.[bg]z2?}'
+    exit 0
+    ;;
 esac
 package_url="${RVM_BINARIES_BASE}/${SYSTEM_NAME}/${SYSTEM_VERSION}/${SYSTEM_ARCH}/${RVM_BINARIES_PACKAGE_PREFIX}-${ruby_version}.tar.bz2"
 package_url=`echo $package_url | awk '{print tolower($0)}'`
