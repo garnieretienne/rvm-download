@@ -57,6 +57,8 @@ if ! check_url $package_url; then
   exit 1
 fi
 
+ensure_folder_exists "$RUBIES_ROOT"
+
 erase_folder_if_exist "${RUBIES_ROOT}/${ruby_version_full}"
 download_and_extract_package $package_url $RUBIES_ROOT
 case $RVM_BINARIES_PACKAGE_PREFIX in

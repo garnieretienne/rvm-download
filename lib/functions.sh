@@ -25,3 +25,8 @@ rename_folder_if_exist() {
     mv $1 $2
   fi
 }
+
+ensure_folder_exists() {
+  folder=$1
+  mkdir --parents $folder
+}
