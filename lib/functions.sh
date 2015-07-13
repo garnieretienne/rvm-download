@@ -28,5 +28,5 @@ rename_folder_if_exist() {
 
 ensure_folder_exists() {
   folder=$1
-  mkdir --parents $folder
+  mkdir -p $folder
 }
